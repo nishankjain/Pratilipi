@@ -22,3 +22,5 @@ npm install
 # Running
 
 npm start
+
+Open http://localhost:8000/app/ in your browser.
