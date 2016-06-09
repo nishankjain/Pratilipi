@@ -9,7 +9,7 @@ html, body {
 }
 
 #error-field {
-	display: block;
+	display: block !important;
     color: #ffffff;
     font-size: 12px;
     margin-bottom: 15px !important;
