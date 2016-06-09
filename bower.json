@@ -1,0 +1,14 @@
+{
+  "name": "crashing-planes",
+  "description": "A flight booking app",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "1.5.x",
+    "angular-mocks": "1.5.x",
+    "jquery": "~2.2.4",
+    "angular-route": "1.5.x",
+    "angular-resource": "1.5.x"
+  }
+}

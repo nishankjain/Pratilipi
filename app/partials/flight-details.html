@@ -1,0 +1,199 @@
+<div ng-controller='flightsController as flight' class="flight-view">
+	<div id="source-destination">
+		<span>{{flight.source}}</span>
+		<i class="material-icons">&#xE905;</i>
+		<span id="seat-count">{{flight.seats}} people</span>
+		<i class="material-icons">&#xE904;</i>
+		<span>{{flight.destination}}</span>
+	</div>
+	<div id="options-menu">
+		<div>
+			<div ng-click='flight.sortByAirline()'>
+				<i class="material-icons">&#xE195;</i>
+				<i class="material-icons" ng-show="flight.sortFilter === 'Airline' && !flight.reverseFilter">&#xE5CE;</i>
+				<i class="material-icons" ng-show="flight.sortFilter === 'Airline' && flight.reverseFilter">&#xE5CF;</i>
+			</div>
+			<div ng-click='flight.sortByDeparture()'>
+				<i class="material-icons">&#xE905;</i>
+				<i class="material-icons" ng-show="flight.sortFilter === 'DepartureDecimal' && !flight.reverseFilter">&#xE5CE;</i>
+				<i class="material-icons" ng-show="flight.sortFilter === 'DepartureDecimal' && flight.reverseFilter">&#xE5CF;</i>
+			</div>
+			<div ng-click='flight.sortByArrival()'>
+				<i class="material-icons">&#xE904;</i>
+				<i class="material-icons" ng-show="flight.sortFilter === 'ArrivalDecimal' && !flight.reverseFilter">&#xE5CE;</i>
+				<i class="material-icons" ng-show="flight.sortFilter === 'ArrivalDecimal' && flight.reverseFilter">&#xE5CF;</i>
+			</div>
+			<div ng-click='flight.sortByDuration()'>
+				<i class="material-icons">&#xE192;</i>
+				<i class="material-icons" ng-show="flight.sortFilter === 'DurationDecimal' && !flight.reverseFilter">&#xE5CE;</i>
+				<i class="material-icons" ng-show="flight.sortFilter === 'DurationDecimal' && flight.reverseFilter">&#xE5CF;</i>
+			</div>
+			<div ng-click='flight.sortBySeats()'>
+				<i class="material-icons">&#xE636;</i>
+				<i class="material-icons" ng-show="flight.sortFilter === 'Seats' && !flight.reverseFilter">&#xE5CE;</i>
+				<i class="material-icons" ng-show="flight.sortFilter === 'Seats' && flight.reverseFilter">&#xE5CF;</i>
+			</div>
+			<div ng-click='flight.sortByPrice()'>
+				<i class="material-icons">&#xE53E;</i>
+				<i class="material-icons" ng-show="flight.sortFilter === 'Price' && !flight.reverseFilter">&#xE5CE;</i>
+				<i class="material-icons" ng-show="flight.sortFilter === 'Price' && flight.reverseFilter">&#xE5CF;</i>
+			</div>
+			<div id="filter-menu" ng-click='flight.openFilterWindow()'>
+				<i class="material-icons">&#xE429;</i>
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<div id="filters">
+			<div id="filter-header">
+				<span>Filter Flights</span>
+				<i class="material-icons" ng-click='flight.closeFilterScreen()'>&#xE5CD;</i>
+			</div>
+			<div id="price-filter">
+				<div>Price</div>
+				<div ng-show='flight.flightsFound'>
+					<span>Upto &#8377; {{flight.priceRange}}</span>
+					<input id="myRange" type="range" name="priceRange" ng-model='flight.priceRange' step='100' ng-change='flight.filterByPrice(flight.priceRange)'>
+				</div>
+				<div ng-show='flight.flightsFound'>
+					<span>&#8377; {{flight.minPrice}}</span>
+					<span>&#8377; {{flight.maxPrice}}</span>
+				</div>
+			</div>
+			<div class="checkbox-filters">
+				<div>Duration</div>
+				<div>
+					<div id="check-boxes" ng-repeat='duration in flight.durations' ng-click='flight.filterByDuration(duration)'>
+						<div>
+							<span>{{duration}}</span>
+						</div>
+						<div>
+							<input type="checkbox" id="duration{{$index}}" name="duration" ng-checked='flight.activeDurations.indexOf(duration) >= 0'>
+							<label for="duration{{$index}}"></label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="checkbox-filters">
+				<div>Airline</div>
+				<div>
+					<div ng-repeat='airline in flight.airlines' ng-click='flight.filterByAirline(airline)'>
+						<div>
+							<img ng-src="{{
+								airline === 'Jet Airways' && 'images/jet_airways.png' ||
+								airline === 'Air India' && 'images/air_india.png' ||
+								airline === 'Indigo' && 'images/indigo_airlines.png'
+							}}">
+							<span>{{airline}}</span>
+						</div>
+						<div>
+							<input type="checkbox" id="airline{{$index}}" name="airline" ng-checked='flight.activeAirlines.indexOf(airline) >= 0'>
+							<label for="airline{{$index}}"></label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="checkbox-filters">
+				<div>Departure</div>
+				<div>
+					<div ng-repeat='daySection in flight.daySections' ng-click='flight.filterByDeparture(daySection)'>
+						<div>
+							<span>{{daySection.stringDuration}}</span>
+						</div>
+						<div>
+							<input type="checkbox" id="departure{{$index}}" name="departure" ng-checked='flight.activeDepartureSections.indexOf(daySection) >= 0'>
+							<label for="departure{{$index}}"></label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="checkbox-filters">
+				<div>Arrival</div>
+				<div>
+					<div ng-repeat='daySection in flight.daySections' ng-click='flight.filterByArrival(daySection)'>
+						<div>
+							<span>{{daySection.stringDuration}}</span>
+						</div>
+						<div>
+							<input type="checkbox" id="arrival{{$index}}" name="arrival" ng-checked='flight.activeArrivalSections.indexOf(daySection) >= 0'>
+							<label for="arrival{{$index}}"></label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="all-flights">
+			<div id="sort-filters">
+				<div ng-click='flight.sortByAirline()'>
+					<span>Airline</span>
+					<i class="material-icons" ng-show="flight.sortFilter === 'Airline' && !flight.reverseFilter">&#xE5CE;</i>
+					<i class="material-icons" ng-show="flight.sortFilter === 'Airline' && flight.reverseFilter">&#xE5CF;</i>
+				</div>
+				<div ng-click='flight.sortByDeparture()'>
+					<span>Departure</span>
+					<i class="material-icons" ng-show="flight.sortFilter === 'DepartureDecimal' && !flight.reverseFilter">&#xE5CE;</i>
+					<i class="material-icons" ng-show="flight.sortFilter === 'DepartureDecimal' && flight.reverseFilter">&#xE5CF;</i>
+				</div>
+				<div ng-click='flight.sortByArrival()'>
+					<span>Arrival</span>
+					<i class="material-icons" ng-show="flight.sortFilter === 'ArrivalDecimal' && !flight.reverseFilter">&#xE5CE;</i>
+					<i class="material-icons" ng-show="flight.sortFilter === 'ArrivalDecimal' && flight.reverseFilter">&#xE5CF;</i>
+				</div>
+				<div ng-click='flight.sortByDuration()'>
+					<span>Duration</span>
+					<i class="material-icons" ng-show="flight.sortFilter === 'DurationDecimal' && !flight.reverseFilter">&#xE5CE;</i>
+					<i class="material-icons" ng-show="flight.sortFilter === 'DurationDecimal' && flight.reverseFilter">&#xE5CF;</i>
+				</div>
+				<div ng-click='flight.sortBySeats()'>
+					<span>Seats</span>
+					<i class="material-icons" ng-show="flight.sortFilter === 'Seats' && !flight.reverseFilter">&#xE5CE;</i>
+					<i class="material-icons" ng-show="flight.sortFilter === 'Seats' && flight.reverseFilter">&#xE5CF;</i>
+				</div>
+				<div ng-click='flight.sortByPrice()'>
+					<span>Price</span>
+					<i class="material-icons" ng-show="flight.sortFilter === 'Price' && !flight.reverseFilter">&#xE5CE;</i>
+					<i class="material-icons" ng-show="flight.sortFilter === 'Price' && flight.reverseFilter">&#xE5CF;</i>
+				</div>
+				<div id="filler">
+					<span>&nbsp;</span>
+				</div>
+			</div>
+			<div ng-repeat='data in flight.modifiedData | flightFilter:flight.filterObject | orderBy : flight.sortFilter : flight.reverseFilter track by $index'>
+				<div class="airline-detail">
+					<img ng-src="{{
+						data.Airline === 'Jet Airways' && 'images/jet_airways.png' ||
+						data.Airline === 'Air India' && 'images/air_india.png' ||
+						data.Airline === 'Indigo' && 'images/indigo_airlines.png'
+					}}">
+					<span>{{data.Airline}}</span>
+				</div>
+				<div class="departure-detail">
+					<span>{{data.Departure}}</span>
+				</div>
+				<div class="direction-pointer">
+					<span>&#8594;</span>
+				</div>
+				<div class="arrival-detail">
+					<span>{{data.Arrival}}</span>
+				</div>
+				<div class="duration-detail">
+					<i class="material-icons">&#xE192;</i>
+					<span>{{data.Duration | durationStringFilter}}</span>
+				</div>
+				<div class="seats-detail">
+					<i class="material-icons">&#xE636;</i>
+					<span>{{data['Seats Available']}}<span>
+				</div>
+				<div class="price-detail">
+					<span>&#8377; {{data.Price}}</span>
+				</div>
+				<div class="book-flight">
+					<button>Book Now</button>
+				</div>
+			</div>
+			<div id="no-flights" ng-hide='flight.flightsFound'>
+				<span>Sorry, no flights found!</span>
+			</div>
+		</div>
+	</div>
+</div>

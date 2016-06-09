@@ -1,0 +1,49 @@
+<div id="user-input" ng-controller='searchController as search'>
+    <div>
+        <div id="error-field">
+            <span>{{search.errorStatement}}</span>
+        </div>
+        <div>
+            <div class="field-names">
+                <span>From</span>
+            </div>
+            <div>
+                <span>
+                    <input type="text" name="source" ng-model='search.source' list="sourceList" placeholder="Enter source city" class="text-input" ng-required='true'>
+                    <datalist id="sourceList">
+                        <option  ng-repeat='city in search.cities' value="{{city}}"></option>
+                    </datalist>
+                </span> 
+            </div>
+        </div>
+        <div>
+            <div class="field-names">
+                <span>To</span>
+            </div>
+            <div>
+                <span>
+                    <input type="text" name="destination" ng-model='search.destination' list="destinationList" placeholder="Enter destination city" class="text-input" ng-required='true'>
+                    <datalist id="destinationList">
+                        <option  ng-repeat='city in search.cities' value="{{city}}"></option>
+                    </datalist>
+                </span> 
+            </div>
+        </div>
+        <div>
+            <div class="field-names">
+                <span>Number of Seats</span>
+            </div>
+            <button ng-click='search.decreaseSeats()' ng-disabled='search.numberOfSeats === 1'><i class="material-icons">&#xE15B;</i></button>
+            <div id="seat-count">{{search.numberOfSeats}}</div>
+            <button ng-click='search.increaseSeats()' ng-disabled='search.numberOfSeats === 10'><i class="material-icons">&#xE145;</i></button>
+        </div>
+        <div id="search-flights" ng-click='search.submitQuery()'>
+            <span>
+                <button>
+                    <i class="material-icons">&#xE8B6;</i>
+                        <span>SEARCH FLIGHTS</span>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>
