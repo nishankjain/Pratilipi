@@ -13,7 +13,7 @@ We also use a number of node.js tools to initialize and test angular-seed. You m
 
 # Installation
 
-git clone git@github.com:nishankjain/crashing-planes.git
+git clone https://github.com/nishankjain/crashing-planes.git
 
 Navigate to the folder where you have cloned this repository.
 
