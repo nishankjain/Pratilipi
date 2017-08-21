@@ -33,7 +33,7 @@ The template is just another resource present on the 'server' which can only be 
 
 The URLs contain '#/' while routing. If you want to remove them, then you will have to set html5Mode to true on the $locationProvider service -> $locationProvider.html5Mode(true); Also, add a base tag to the index.html with the root url as the value -> "&lt;base href='/'&gt;" and change the URLs wherever referred.
 
-This will lead to an error if you reload the page, because index.html will not be available at any other URL except for base URL. TO resolve this you need to setup a route on the server which will serve index.html for all URLs.
+This will lead to an error if you reload the page, because index.html will not be available at any other URL except for base URL. To resolve this you need to setup a route on the server which will serve index.html for all URLs.
 
 # Filters
 
