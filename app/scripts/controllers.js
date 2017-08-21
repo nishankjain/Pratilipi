@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 var crashingPlanesControllers = angular.module('crashingPlanesControllers', []);
 
@@ -296,7 +296,6 @@ crashingPlanesControllers.controller('flightsController', function(searchParams)
 		}
 		return hours + minutes / 60;
 	};
-
 
 	if (!searchParams.source) {
 		if (typeof(Storage) !== "undefined") {

@@ -1,13 +1,13 @@
-'use strict';
+// 'use strict';
 
 var crashingPlanesServices = angular.module('crashingPlanesServices', ['ngResource']);
 
 crashingPlanesServices.factory('searchParams', function(){
-  var params = {};
+	var params = {};
 
-  params.add = function(param, value){
-    params[param] = value;
-  };
+	params.add = function(param, value){
+		params[param] = value;
+	};
 
-  return params;
+	return params;
 });
