@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 var crashingPlanesApp = angular.module('crashingplanes', [
   'ngRoute',
